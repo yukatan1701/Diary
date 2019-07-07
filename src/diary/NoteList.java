@@ -7,7 +7,6 @@ package diary;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JList;
@@ -24,11 +23,12 @@ public class NoteList extends JList {
         ClassLoader cldr = getClass().getClassLoader();
         try (InputStream file = cldr.getResourceAsStream(filename)) {
             try (Scanner in = new Scanner(file)) {
+                int id = 0;
                 while (in.hasNextLine()) {
                     String date = in.nextLine();
                     String title = in.nextLine();
                     String text = in.nextLine();
-                    notes.add(new Note(LocalDate.parse(date), title, text));
+                    notes.add(new Note(id++, date, title, text));
                 }
             } catch (Exception ex) {
             }

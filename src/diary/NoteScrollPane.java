@@ -15,7 +15,7 @@ public class NoteScrollPane extends JScrollPane {
     NoteList noteList = null;
     
     public NoteScrollPane() {
-        noteList = new NoteList("examples.txt");
+        noteList = new NoteList(Note.loadNotesFromDatabase("diary"));
         this.setViewportView(noteList);
     }
 }

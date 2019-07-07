@@ -6,17 +6,21 @@
 package diary;
 
 import javax.swing.border.*;
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author yukatan
  */
 public class MainForm extends javax.swing.JFrame {
-
+    
+    private final String dbname = "diary";
+    
     /**
      * Creates new form MainForm
      */
     public MainForm() {
+        
         initComponents();
         
     }
@@ -40,10 +44,10 @@ public class MainForm extends javax.swing.JFrame {
         panelRight = new javax.swing.JPanel();
         panelFiels = new javax.swing.JPanel();
         textFieldDate = new javax.swing.JFormattedTextField();
-        textFieldTitle = new javax.swing.JTextField();
         sliderMood = new javax.swing.JSlider();
         sliderDesire = new javax.swing.JSlider();
         checkBoxBlood = new javax.swing.JCheckBox();
+        titleTextField = new diary.TitleTextField();
         panelText = new javax.swing.JPanel();
         scrollPaneText = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -102,8 +106,6 @@ public class MainForm extends javax.swing.JFrame {
         textFieldDate.setText("July 01, 1999");
         textFieldDate.setToolTipText("Date");
 
-        textFieldTitle.setToolTipText("Title");
-
         sliderMood.setMaximum(10);
         sliderMood.setToolTipText("Mood");
         sliderMood.setValue(5);
@@ -119,19 +121,16 @@ public class MainForm extends javax.swing.JFrame {
         panelFielsLayout.setHorizontalGroup(
             panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelFielsLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFielsLayout.createSequentialGroup()
-                        .addComponent(textFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFieldTitle))
-                    .addGroup(panelFielsLayout.createSequentialGroup()
-                        .addComponent(sliderMood, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sliderDesire, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(checkBoxBlood)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addComponent(sliderMood, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sliderDesire, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(checkBoxBlood)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(panelFielsLayout.createSequentialGroup()
+                .addComponent(textFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(titleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelFielsLayout.setVerticalGroup(
             panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +138,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(textFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFieldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelFielsLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -241,7 +240,7 @@ public class MainForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -276,7 +275,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JSlider sliderMood;
     private javax.swing.JSplitPane splitPane;
     private javax.swing.JFormattedTextField textFieldDate;
-    private javax.swing.JTextField textFieldTitle;
+    private diary.TitleTextField titleTextField;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }
