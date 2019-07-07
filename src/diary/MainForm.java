@@ -26,6 +26,7 @@ public class MainForm extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         toolBar = new javax.swing.JToolBar();
         buttonAdd = new javax.swing.JButton();
@@ -33,7 +34,24 @@ public class MainForm extends javax.swing.JFrame {
         buttonDelete = new javax.swing.JButton();
         splitPane = new javax.swing.JSplitPane();
         leftPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
         rightPanel = new javax.swing.JPanel();
+        detailsPanel = new javax.swing.JPanel();
+        panelDateTitle = new javax.swing.JPanel();
+        labelDate = new javax.swing.JLabel();
+        textFieldDate = new javax.swing.JFormattedTextField();
+        labelTitle = new javax.swing.JLabel();
+        textFieldTitle = new javax.swing.JTextField();
+        panelMoodDesire = new javax.swing.JPanel();
+        labelMood = new javax.swing.JLabel();
+        sliderMood = new javax.swing.JSlider();
+        labelDesire = new javax.swing.JLabel();
+        sliderDesire = new javax.swing.JSlider();
+        panelBlood = new javax.swing.JPanel();
+        checkBoxBlood = new javax.swing.JCheckBox();
+        textArea = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
         menuDiary = new javax.swing.JMenu();
         menuItemAdd = new javax.swing.JMenuItem();
@@ -77,29 +95,135 @@ public class MainForm extends javax.swing.JFrame {
 
         splitPane.setDividerLocation(200);
 
-        javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
-        leftPanel.setLayout(leftPanelLayout);
-        leftPanelLayout.setHorizontalGroup(
-            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
-        );
-        leftPanelLayout.setVerticalGroup(
-            leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
-        );
+        leftPanel.setLayout(new java.awt.CardLayout());
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        leftPanel.add(jScrollPane1, "card2");
 
         splitPane.setLeftComponent(leftPanel);
 
-        javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
-        rightPanel.setLayout(rightPanelLayout);
-        rightPanelLayout.setHorizontalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 451, Short.MAX_VALUE)
-        );
-        rightPanelLayout.setVerticalGroup(
-            rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
-        );
+        rightPanel.setLayout(new java.awt.GridBagLayout());
+
+        detailsPanel.setLayout(new javax.swing.BoxLayout(detailsPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        panelDateTitle.setLayout(new java.awt.GridBagLayout());
+
+        labelDate.setLabelFor(textFieldDate);
+        labelDate.setText("Date:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weighty = 0.1;
+        panelDateTitle.add(labelDate, gridBagConstraints);
+
+        textFieldDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        textFieldDate.setText("Jul 5, 2019");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        panelDateTitle.add(textFieldDate, gridBagConstraints);
+
+        labelTitle.setText("Title:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        panelDateTitle.add(labelTitle, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.4;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
+        panelDateTitle.add(textFieldTitle, gridBagConstraints);
+
+        detailsPanel.add(panelDateTitle);
+
+        panelMoodDesire.setLayout(new java.awt.GridBagLayout());
+
+        labelMood.setText("Mood:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        panelMoodDesire.add(labelMood, gridBagConstraints);
+
+        sliderMood.setMaximum(10);
+        sliderMood.setValue(5);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 0.9;
+        panelMoodDesire.add(sliderMood, gridBagConstraints);
+
+        labelDesire.setLabelFor(sliderDesire);
+        labelDesire.setText("Desire:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        panelMoodDesire.add(labelDesire, gridBagConstraints);
+
+        sliderDesire.setMaximum(10);
+        sliderDesire.setValue(5);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 50;
+        gridBagConstraints.ipady = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        panelMoodDesire.add(sliderDesire, gridBagConstraints);
+
+        detailsPanel.add(panelMoodDesire);
+
+        panelBlood.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
+
+        checkBoxBlood.setText("Blood:");
+        checkBoxBlood.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        checkBoxBlood.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        panelBlood.add(checkBoxBlood);
+
+        detailsPanel.add(panelBlood);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        rightPanel.add(detailsPanel, gridBagConstraints);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        textArea.setViewportView(jTextArea2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        rightPanel.add(textArea, gridBagConstraints);
 
         splitPane.setRightComponent(rightPanel);
 
@@ -178,7 +302,16 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonRefresh;
+    private javax.swing.JCheckBox checkBoxBlood;
+    private javax.swing.JPanel detailsPanel;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JLabel labelDate;
+    private javax.swing.JLabel labelDesire;
+    private javax.swing.JLabel labelMood;
+    private javax.swing.JLabel labelTitle;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuDiary;
@@ -188,8 +321,16 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemPreferences;
     private javax.swing.JMenuItem menuItemRefresh;
     private javax.swing.JMenu menuTools;
+    private javax.swing.JPanel panelBlood;
+    private javax.swing.JPanel panelDateTitle;
+    private javax.swing.JPanel panelMoodDesire;
     private javax.swing.JPanel rightPanel;
+    private javax.swing.JSlider sliderDesire;
+    private javax.swing.JSlider sliderMood;
     private javax.swing.JSplitPane splitPane;
+    private javax.swing.JScrollPane textArea;
+    private javax.swing.JFormattedTextField textFieldDate;
+    private javax.swing.JTextField textFieldTitle;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
 }
