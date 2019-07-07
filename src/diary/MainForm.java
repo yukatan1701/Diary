@@ -33,25 +33,19 @@ public class MainForm extends javax.swing.JFrame {
         buttonRefresh = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
         splitPane = new javax.swing.JSplitPane();
-        leftPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        rightPanel = new javax.swing.JPanel();
-        detailsPanel = new javax.swing.JPanel();
-        panelDateTitle = new javax.swing.JPanel();
-        labelDate = new javax.swing.JLabel();
+        panelLeft = new javax.swing.JPanel();
+        scrollPaneList = new javax.swing.JScrollPane();
+        listNote = new javax.swing.JList<>();
+        panelRight = new javax.swing.JPanel();
+        panelFiels = new javax.swing.JPanel();
         textFieldDate = new javax.swing.JFormattedTextField();
-        labelTitle = new javax.swing.JLabel();
         textFieldTitle = new javax.swing.JTextField();
-        panelMoodDesire = new javax.swing.JPanel();
-        labelMood = new javax.swing.JLabel();
-        sliderMood = new javax.swing.JSlider();
-        labelDesire = new javax.swing.JLabel();
-        sliderDesire = new javax.swing.JSlider();
-        panelBlood = new javax.swing.JPanel();
-        checkBoxBlood = new javax.swing.JCheckBox();
-        textArea = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jSlider1 = new javax.swing.JSlider();
+        jSlider2 = new javax.swing.JSlider();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        panelText = new javax.swing.JPanel();
+        scrollPaneText = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
         menuDiary = new javax.swing.JMenu();
         menuItemAdd = new javax.swing.JMenuItem();
@@ -64,6 +58,8 @@ public class MainForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Diary");
+        setMinimumSize(new java.awt.Dimension(640, 480));
+        setPreferredSize(new java.awt.Dimension(640, 480));
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
@@ -95,137 +91,96 @@ public class MainForm extends javax.swing.JFrame {
 
         splitPane.setDividerLocation(200);
 
-        leftPanel.setLayout(new java.awt.CardLayout());
+        panelLeft.setLayout(new java.awt.CardLayout());
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        listNote.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        scrollPaneList.setViewportView(listNote);
 
-        leftPanel.add(jScrollPane1, "card2");
+        panelLeft.add(scrollPaneList, "card2");
 
-        splitPane.setLeftComponent(leftPanel);
+        splitPane.setLeftComponent(panelLeft);
 
-        rightPanel.setLayout(new java.awt.GridBagLayout());
+        textFieldDate.setText("July 01, 1999");
+        textFieldDate.setToolTipText("Date");
 
-        detailsPanel.setLayout(new javax.swing.BoxLayout(detailsPanel, javax.swing.BoxLayout.Y_AXIS));
+        textFieldTitle.setToolTipText("Title");
 
-        panelDateTitle.setLayout(new java.awt.GridBagLayout());
+        jSlider1.setMaximum(10);
+        jSlider1.setToolTipText("Mood");
+        jSlider1.setValue(5);
 
-        labelDate.setLabelFor(textFieldDate);
-        labelDate.setText("Date:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weighty = 0.1;
-        panelDateTitle.add(labelDate, gridBagConstraints);
+        jSlider2.setMaximum(10);
+        jSlider2.setToolTipText("Desire");
+        jSlider2.setValue(5);
 
-        textFieldDate.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        textFieldDate.setText("Jul 5, 2019");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        panelDateTitle.add(textFieldDate, gridBagConstraints);
+        jCheckBox1.setText("Blood");
 
-        labelTitle.setText("Title:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        panelDateTitle.add(labelTitle, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.4;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 1);
-        panelDateTitle.add(textFieldTitle, gridBagConstraints);
+        javax.swing.GroupLayout panelFielsLayout = new javax.swing.GroupLayout(panelFiels);
+        panelFiels.setLayout(panelFielsLayout);
+        panelFielsLayout.setHorizontalGroup(
+            panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFielsLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFielsLayout.createSequentialGroup()
+                        .addComponent(textFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textFieldTitle))
+                    .addGroup(panelFielsLayout.createSequentialGroup()
+                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCheckBox1)
+                        .addGap(0, 222, Short.MAX_VALUE))))
+        );
+        panelFielsLayout.setVerticalGroup(
+            panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFielsLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFielsLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelFielsLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jCheckBox1)))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
-        detailsPanel.add(panelDateTitle);
+        panelText.setLayout(new java.awt.CardLayout());
 
-        panelMoodDesire.setLayout(new java.awt.GridBagLayout());
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        scrollPaneText.setViewportView(jTextArea1);
 
-        labelMood.setText("Mood:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        panelMoodDesire.add(labelMood, gridBagConstraints);
+        panelText.add(scrollPaneText, "card2");
 
-        sliderMood.setMaximum(10);
-        sliderMood.setValue(5);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.9;
-        panelMoodDesire.add(sliderMood, gridBagConstraints);
+        javax.swing.GroupLayout panelRightLayout = new javax.swing.GroupLayout(panelRight);
+        panelRight.setLayout(panelRightLayout);
+        panelRightLayout.setHorizontalGroup(
+            panelRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelFiels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panelRightLayout.setVerticalGroup(
+            panelRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRightLayout.createSequentialGroup()
+                .addComponent(panelFiels, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelText, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE))
+        );
 
-        labelDesire.setLabelFor(sliderDesire);
-        labelDesire.setText("Desire:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelMoodDesire.add(labelDesire, gridBagConstraints);
-
-        sliderDesire.setMaximum(10);
-        sliderDesire.setValue(5);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 50;
-        gridBagConstraints.ipady = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        panelMoodDesire.add(sliderDesire, gridBagConstraints);
-
-        detailsPanel.add(panelMoodDesire);
-
-        panelBlood.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
-
-        checkBoxBlood.setText("Blood:");
-        checkBoxBlood.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        checkBoxBlood.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        panelBlood.add(checkBoxBlood);
-
-        detailsPanel.add(panelBlood);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        rightPanel.add(detailsPanel, gridBagConstraints);
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        textArea.setViewportView(jTextArea2);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        rightPanel.add(textArea, gridBagConstraints);
-
-        splitPane.setRightComponent(rightPanel);
+        splitPane.setRightComponent(panelRight);
 
         getContentPane().add(splitPane, java.awt.BorderLayout.CENTER);
 
@@ -302,17 +257,12 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonRefresh;
-    private javax.swing.JCheckBox checkBoxBlood;
-    private javax.swing.JPanel detailsPanel;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JLabel labelDate;
-    private javax.swing.JLabel labelDesire;
-    private javax.swing.JLabel labelMood;
-    private javax.swing.JLabel labelTitle;
-    private javax.swing.JPanel leftPanel;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider jSlider2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JList<String> listNote;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuDiary;
     private javax.swing.JMenu menuHelp;
@@ -321,14 +271,13 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemPreferences;
     private javax.swing.JMenuItem menuItemRefresh;
     private javax.swing.JMenu menuTools;
-    private javax.swing.JPanel panelBlood;
-    private javax.swing.JPanel panelDateTitle;
-    private javax.swing.JPanel panelMoodDesire;
-    private javax.swing.JPanel rightPanel;
-    private javax.swing.JSlider sliderDesire;
-    private javax.swing.JSlider sliderMood;
+    private javax.swing.JPanel panelFiels;
+    private javax.swing.JPanel panelLeft;
+    private javax.swing.JPanel panelRight;
+    private javax.swing.JPanel panelText;
+    private javax.swing.JScrollPane scrollPaneList;
+    private javax.swing.JScrollPane scrollPaneText;
     private javax.swing.JSplitPane splitPane;
-    private javax.swing.JScrollPane textArea;
     private javax.swing.JFormattedTextField textFieldDate;
     private javax.swing.JTextField textFieldTitle;
     private javax.swing.JToolBar toolBar;
