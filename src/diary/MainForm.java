@@ -5,6 +5,8 @@
  */
 package diary;
 
+import javax.swing.border.*;
+
 /**
  *
  * @author yukatan
@@ -16,6 +18,7 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        
     }
 
     /**
@@ -26,7 +29,6 @@ public class MainForm extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         toolBar = new javax.swing.JToolBar();
         buttonAdd = new javax.swing.JButton();
@@ -34,15 +36,14 @@ public class MainForm extends javax.swing.JFrame {
         buttonDelete = new javax.swing.JButton();
         splitPane = new javax.swing.JSplitPane();
         panelLeft = new javax.swing.JPanel();
-        scrollPaneList = new javax.swing.JScrollPane();
-        listNote = new javax.swing.JList<>();
+        noteScrollPane = new diary.NoteScrollPane();
         panelRight = new javax.swing.JPanel();
         panelFiels = new javax.swing.JPanel();
         textFieldDate = new javax.swing.JFormattedTextField();
         textFieldTitle = new javax.swing.JTextField();
-        jSlider1 = new javax.swing.JSlider();
-        jSlider2 = new javax.swing.JSlider();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        sliderMood = new javax.swing.JSlider();
+        sliderDesire = new javax.swing.JSlider();
+        checkBoxBlood = new javax.swing.JCheckBox();
         panelText = new javax.swing.JPanel();
         scrollPaneText = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -59,7 +60,7 @@ public class MainForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Diary");
         setMinimumSize(new java.awt.Dimension(640, 480));
-        setPreferredSize(new java.awt.Dimension(640, 480));
+        setPreferredSize(new java.awt.Dimension(740, 480));
 
         toolBar.setFloatable(false);
         toolBar.setRollover(true);
@@ -89,18 +90,12 @@ public class MainForm extends javax.swing.JFrame {
 
         getContentPane().add(toolBar, java.awt.BorderLayout.PAGE_START);
 
-        splitPane.setDividerLocation(200);
+        splitPane.setBorder(new EmptyBorder(0, 5, 5, 5));
+        splitPane.setDividerLocation(270);
 
+        panelLeft.setPreferredSize(new java.awt.Dimension(300, 586));
         panelLeft.setLayout(new java.awt.CardLayout());
-
-        listNote.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        scrollPaneList.setViewportView(listNote);
-
-        panelLeft.add(scrollPaneList, "card2");
+        panelLeft.add(noteScrollPane, "card2");
 
         splitPane.setLeftComponent(panelLeft);
 
@@ -109,15 +104,15 @@ public class MainForm extends javax.swing.JFrame {
 
         textFieldTitle.setToolTipText("Title");
 
-        jSlider1.setMaximum(10);
-        jSlider1.setToolTipText("Mood");
-        jSlider1.setValue(5);
+        sliderMood.setMaximum(10);
+        sliderMood.setToolTipText("Mood");
+        sliderMood.setValue(5);
 
-        jSlider2.setMaximum(10);
-        jSlider2.setToolTipText("Desire");
-        jSlider2.setValue(5);
+        sliderDesire.setMaximum(10);
+        sliderDesire.setToolTipText("Desire");
+        sliderDesire.setValue(5);
 
-        jCheckBox1.setText("Blood");
+        checkBoxBlood.setText("Blood");
 
         javax.swing.GroupLayout panelFielsLayout = new javax.swing.GroupLayout(panelFiels);
         panelFiels.setLayout(panelFielsLayout);
@@ -131,12 +126,12 @@ public class MainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textFieldTitle))
                     .addGroup(panelFielsLayout.createSequentialGroup()
-                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sliderMood, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sliderDesire, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCheckBox1)
-                        .addGap(0, 222, Short.MAX_VALUE))))
+                        .addComponent(checkBoxBlood)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelFielsLayout.setVerticalGroup(
             panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,15 +144,17 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(panelFielsLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelFielsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(sliderMood, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sliderDesire, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelFielsLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(jCheckBox1)))
+                        .addComponent(checkBoxBlood)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         panelText.setLayout(new java.awt.CardLayout());
+
+        scrollPaneText.setToolTipText("Text");
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -227,12 +224,13 @@ public class MainForm extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
+            /*for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
-            }
+            }*/
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -257,12 +255,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonRefresh;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox checkBoxBlood;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSlider jSlider2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JList<String> listNote;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuDiary;
     private javax.swing.JMenu menuHelp;
@@ -271,12 +266,14 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItemPreferences;
     private javax.swing.JMenuItem menuItemRefresh;
     private javax.swing.JMenu menuTools;
+    private diary.NoteScrollPane noteScrollPane;
     private javax.swing.JPanel panelFiels;
     private javax.swing.JPanel panelLeft;
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelText;
-    private javax.swing.JScrollPane scrollPaneList;
     private javax.swing.JScrollPane scrollPaneText;
+    private javax.swing.JSlider sliderDesire;
+    private javax.swing.JSlider sliderMood;
     private javax.swing.JSplitPane splitPane;
     private javax.swing.JFormattedTextField textFieldDate;
     private javax.swing.JTextField textFieldTitle;
