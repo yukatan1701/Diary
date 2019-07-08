@@ -26,10 +26,17 @@ public class NoteList extends JList {
             try (Scanner in = new Scanner(file)) {
                 int id = 0;
                 while (in.hasNextLine()) {
-                    String date = in.nextLine();
-                    String title = in.nextLine();
-                    String text = in.nextLine();
-                    notes.add(new Note(id++, date, title, text));
+                    Note.Fields fields = new Note.Fields();
+                    fields.setId(id++);
+                    fields.setDate(in.nextLine());
+                    fields.setTitle(in.nextLine());
+                    fields.setText(in.nextLine());
+                    fields.setMood(Integer.parseInt(in.nextLine()));
+                    fields.setDesire(Integer.parseInt(in.nextLine()));
+                    fields.setBlood(Boolean.parseBoolean(in.nextLine()));
+                    fields.setTears(Boolean.parseBoolean(in.nextLine()));
+                    
+                    notes.add(new Note(fields));
                 }
             } catch (Exception ex) {
             }
