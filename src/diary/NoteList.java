@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -39,6 +40,7 @@ public class NoteList extends JList {
     
     private void initNoteList() {
         this.setCellRenderer(new NotePanelRenderer());
+        this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
     
     public NoteList() {

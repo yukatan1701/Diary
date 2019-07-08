@@ -60,7 +60,6 @@ public class Note {
                 int id = rs.getInt("ID");
                 String date = rs.getString("DATE");
                 String title = rs.getString("TITLE");
-                System.out.println(title);
                 String text = rs.getString("TEXT");
                 listModel.addElement(new Note(id, date, title, text));
             }

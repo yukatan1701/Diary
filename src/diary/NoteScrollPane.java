@@ -5,17 +5,55 @@
  */
 package diary;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import database.*;
 
 /**
  *
  * @author yukatan
  */
 public class NoteScrollPane extends JScrollPane {
-    NoteList noteList = null;
+    private NoteList noteList = null;
+    private MainForm mainform = null;
+    
+    private void initialize() {
+        this.setViewportView(noteList);
+        ListSelectionModel selModel = noteList.getSelectionModel();
+        selModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                    int index = lsm.getLeadSelectionIndex();
+                    Note selectedNote = (Note) noteList.getModel().getElementAt(index);
+                    mainform.setDiaryFields(selectedNote);
+                }
+            }
+        });
+    }
     
     public NoteScrollPane() {
-        noteList = new NoteList(Note.loadNotesFromDatabase("diary"));
-        this.setViewportView(noteList);
+        noteList = new NoteList("examples.txt");
+        initialize();
+    }
+    
+    public NoteScrollPane(MainForm mainform) {
+        this.mainform = mainform;
+        noteList = new NoteList("examples.txt");
+        initialize();
+    }
+    
+    public NoteScrollPane(MainForm mainform, DefaultListModel<Note> listModel) {
+        this.mainform = mainform;
+        noteList = new NoteList(listModel);
+        initialize();
+    }
+    
+    public void setListModel(DefaultListModel<Note> listModel) {
+        noteList.setModel(listModel);
     }
 }
