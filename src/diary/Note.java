@@ -55,7 +55,8 @@ public class Note {
         DefaultListModel<Note> listModel = new DefaultListModel<>();
         DBConnection dbconn = new DBConnection(dbname);
         try {
-            ResultSet rs = dbconn.getQueryResult(Query.selectAll(dbname));
+            ResultSet rs = dbconn.getQueryResult(Query.selectPreview(dbname));
+            //ResultSet rs = dbconn.getQueryResult(Query.selectAll(dbname));
             while (rs.next()) {
                 int id = rs.getInt("ID");
                 String date = rs.getString("DATE");
@@ -68,5 +69,24 @@ public class Note {
         }
         dbconn.closeConnection();
         return listModel;
+    }
+    
+    public static Note loadNoteFromDatabase(String dbname, int id) {
+        String date = null;
+        String title = null;
+        String text = null;
+        DBConnection dbconn = new DBConnection(dbname);
+        try {
+            ResultSet rs = dbconn.getQueryResult(Query.selectById(dbname, id));
+            if (rs.next()) {
+                date = rs.getString("DATE");
+                title = rs.getString("TITLE");
+                text = rs.getString("TEXT");
+            }
+        } catch (IOException|SQLException ex) {
+            ex.printStackTrace();
+        }
+        dbconn.closeConnection();
+        return new Note(id, date, title, text);
     }
 }

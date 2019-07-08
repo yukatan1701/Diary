@@ -1,0 +1,1 @@
+SELECT id, date, title, SUBSTR(text, 1, 128) AS text FROM %s

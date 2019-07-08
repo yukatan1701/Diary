@@ -22,13 +22,19 @@ public class MainForm extends javax.swing.JFrame {
         
         initComponents();
         noteScrollPane.setListModel(Note.loadNotesFromDatabase(dbname));
+        noteScrollPane.selectIndex(0);
         labelStatus.setText("Diary is opened.");
     }
     
-    public void setDiaryFields(Note note) {
-        textFieldDate.setText(note.getDate());
-        titleTextField.setText(note.getTitle());
-        textArea.setText(note.getText());
+    public void updateDiaryFields(int id) {
+        labelStatus.setText("Loading note...");
+        // TODO: use threads
+        Note fullNote = Note.loadNoteFromDatabase(dbname, id);
+        labelStatus.setText("Note loaded.");
+        
+        textFieldDate.setText(fullNote.getDate());
+        titleTextField.setText(fullNote.getTitle());
+        textArea.setText(fullNote.getText());
     }
 
     /**

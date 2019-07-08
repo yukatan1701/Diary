@@ -10,7 +10,8 @@ public final class DerbyException {
 	}
 	
 	public static boolean shutdownMessage(SQLException ex) {
-		if (ex.getErrorCode() == 45000 || ex.getErrorCode() == 40000)
+        int errorCode = ex.getErrorCode();
+		if (errorCode == 45000 || errorCode == 40000 || errorCode == 50000)
 			return true;
 		return false;
 	}

@@ -76,8 +76,7 @@ public class DBConnection {
     
     public void shutdown() {
     	try {
-    		DriverManager.getConnection("jdbc:derby:" + dbname +
-    				";shutdown=true"); 
+    		DriverManager.getConnection("jdbc:derby:;shutdown=true"); 
     	} catch (SQLException ex) {
     		if (!DerbyException.shutdownMessage(ex)) {
     			System.out.println(ex.getErrorCode());

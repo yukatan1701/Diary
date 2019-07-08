@@ -18,7 +18,7 @@ import database.*;
  */
 public class NoteScrollPane extends JScrollPane {
     private NoteList noteList = null;
-    private MainForm mainform = null;
+    private MainForm mainForm = null;
     
     private void initialize() {
         this.setViewportView(noteList);
@@ -30,7 +30,7 @@ public class NoteScrollPane extends JScrollPane {
                     ListSelectionModel lsm = (ListSelectionModel) e.getSource();
                     int index = lsm.getLeadSelectionIndex();
                     Note selectedNote = (Note) noteList.getModel().getElementAt(index);
-                    mainform.setDiaryFields(selectedNote);
+                    mainForm.updateDiaryFields(selectedNote.getId());
                 }
             }
         });
@@ -41,19 +41,23 @@ public class NoteScrollPane extends JScrollPane {
         initialize();
     }
     
-    public NoteScrollPane(MainForm mainform) {
-        this.mainform = mainform;
+    public NoteScrollPane(MainForm mainForm) {
+        this.mainForm = mainForm;
         noteList = new NoteList("examples.txt");
         initialize();
     }
     
-    public NoteScrollPane(MainForm mainform, DefaultListModel<Note> listModel) {
-        this.mainform = mainform;
+    public NoteScrollPane(MainForm mainForm, DefaultListModel<Note> listModel) {
+        this.mainForm = mainForm;
         noteList = new NoteList(listModel);
         initialize();
     }
     
     public void setListModel(DefaultListModel<Note> listModel) {
         noteList.setModel(listModel);
+    }
+    
+    public void selectIndex(int index) {
+        noteList.setSelectedIndex(0);
     }
 }

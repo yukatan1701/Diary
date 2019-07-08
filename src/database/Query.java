@@ -29,6 +29,10 @@ public final class Query {
 	public static String selectAll(String dbname) throws IOException {
 		return getQuery("select_all", dbname);
 	}
+    
+    public static String selectPreview(String dbname) throws IOException {
+		return getQuery("select_preview", dbname);
+	}
 	
 	public static String selectById(String dbname, int id) throws IOException {
 		return getQuery("select_id", dbname, id);

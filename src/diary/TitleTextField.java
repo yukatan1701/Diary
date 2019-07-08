@@ -61,7 +61,7 @@ public class TitleTextField extends JTextField implements FocusListener {
         return showingHint ? "" : super.getText();
     }
     
-    @Override
+    /*@Override
     public void setText(String text) {
         super.setText(text);
         if (text.isEmpty()) {
@@ -69,5 +69,5 @@ public class TitleTextField extends JTextField implements FocusListener {
         } else {
             hideHint();
         }
-    }
+    }*/
 }
