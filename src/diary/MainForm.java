@@ -16,7 +16,7 @@ public class MainForm extends javax.swing.JFrame {
     
     private final String dbname = "diary";
     private Note currentNote = null;
-    private HashMap<Integer, String> textCache = new HashMap<>();
+    private final HashMap<Integer, String> textCache = new HashMap<>();
     /**
      * Creates new form MainForm
      */
@@ -33,7 +33,7 @@ public class MainForm extends javax.swing.JFrame {
         return dbname;
     }
     
-    public Note createNoteByFormFields() {
+    public Note createWideNoteByFormFields() {
         Note.Fields fields = new Note.Fields();
         fields.setId(currentNote.getId());
         fields.setDate(textFieldDate.getText());
@@ -56,6 +56,10 @@ public class MainForm extends javax.swing.JFrame {
     
     public String getCachedTextById(int id) {
         return textCache.get(id);
+    }
+    
+    public void editTextInCache(int id, String text) {
+        textCache.put(id, text);
     }
     
     public void updateDiaryFields(Note selectedNote) {

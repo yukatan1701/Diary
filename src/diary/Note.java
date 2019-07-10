@@ -49,7 +49,7 @@ public class Note {
             
         }
         
-        public boolean compareTo(Fields f, MainForm mainForm) {
+        public boolean compareWithWideNote(Fields f, MainForm mainForm) {
             /*System.out.println("***");
             System.out.println(id == f.id);
             System.out.println(date.compareTo(f.date) == 0);
@@ -113,8 +113,22 @@ public class Note {
         fields = new Fields(newFields);
     }
     
-    public boolean compareTo(Note n, MainForm mainForm) {
-        return this.fields.compareTo(n.fields, mainForm);
+    public boolean compareWithWideNote(Note n, MainForm mainForm) {
+        return this.fields.compareWithWideNote(n.fields, mainForm);
+    }
+    
+    public void copyPreview(Note note) {
+        fields.id = note.getId();
+        fields.date = note.getDate();
+        fields.title = note.getTitle();
+        if (note.getText().length() > TEXT_PREVIEW_LENGTH)
+            fields.text = note.getText().substring(0, TEXT_PREVIEW_LENGTH);
+        else
+            fields.text = note.getText();
+        fields.mood = note.getMood();
+        fields.desire = note.getDesire();
+        fields.blood = note.getBlood();
+        fields.tears = note.getTears();
     }
     
     public int getId() {
