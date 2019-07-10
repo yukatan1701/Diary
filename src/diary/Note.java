@@ -18,6 +18,8 @@ import javax.swing.DefaultListModel;
  * @author yukatan
  */
 public class Note {
+    public final int TEXT_PREVIEW_LENGTH = 128;
+    
     public static class Fields {
         private int id = -1;
         private String date = "";
@@ -47,7 +49,7 @@ public class Note {
             
         }
         
-        public boolean compareTo(Fields f) {
+        public boolean compareTo(Fields f, MainForm mainForm) {
             /*System.out.println("***");
             System.out.println(id == f.id);
             System.out.println(date.compareTo(f.date) == 0);
@@ -61,10 +63,11 @@ public class Note {
             System.out.println(desire == f.desire);
             System.out.println(blood == f.blood);
             System.out.println(tears == f.tears);*/
+            String fullText = mainForm.getCachedTextById(id);
             return (id == f.id &&
                 date.compareTo(f.date) == 0 &&
                 title.compareTo(f.title) == 0 &&
-                text.compareTo(f.text) == 0 &&
+                fullText.compareTo(f.text) == 0 &&
                 mood == f.mood &&
                 desire == f.desire &&
                 blood == f.blood &&
@@ -110,8 +113,8 @@ public class Note {
         fields = new Fields(newFields);
     }
     
-    public boolean compareTo(Note n) {
-        return this.fields.compareTo(n.fields);
+    public boolean compareTo(Note n, MainForm mainForm) {
+        return this.fields.compareTo(n.fields, mainForm);
     }
     
     public int getId() {
@@ -149,6 +152,15 @@ public class Note {
     @Override
     public String toString() {
         return fields.title;
+    }
+    
+    public void setText(String text) {
+        fields.text = text;
+    }
+    
+    public void shorten() {
+        if (fields.text.length() > TEXT_PREVIEW_LENGTH)
+            fields.text = fields.text.substring(0, TEXT_PREVIEW_LENGTH);
     }
     
     public static DefaultListModel<Note> loadNotesFromDatabase(String dbname) {

@@ -6,6 +6,7 @@
 package diary;
 
 import javax.swing.border.*;
+import java.util.HashMap;
 
 /**
  *
@@ -15,7 +16,7 @@ public class MainForm extends javax.swing.JFrame {
     
     private final String dbname = "diary";
     private Note currentNote = null;
-    
+    private HashMap<Integer, String> textCache = new HashMap<>();
     /**
      * Creates new form MainForm
      */
@@ -53,19 +54,33 @@ public class MainForm extends javax.swing.JFrame {
         return currentNote;
     }
     
-    public void updateDiaryFields(int id) {
+    public String getCachedTextById(int id) {
+        return textCache.get(id);
+    }
+    
+    public void updateDiaryFields(Note selectedNote) {
         labelStatus.setText("Loading note...");
         // TODO: use threads
-        currentNote = Note.loadNoteFromDatabase(dbname, id);
-        labelStatus.setText("Note loaded.");
+        
+        int id = selectedNote.getId();
+        if (textCache.containsKey(id)) {
+            currentNote = selectedNote;
+        } else {
+            currentNote = Note.loadNoteFromDatabase(dbname, id);
+            // shorten note for preview and add to cache
+            textCache.put(id, currentNote.getText());
+            currentNote.shorten();
+        }
+        
+        textArea.setText(textCache.get(id));
         
         textFieldDate.setText(currentNote.getDate());
         titleTextField.setText(currentNote.getTitle());
-        textArea.setText(currentNote.getText());
         sliderMood.setValue(currentNote.getMood());
         sliderDesire.setValue(currentNote.getDesire());
         checkBoxBlood.setSelected(currentNote.getBlood());
         checkBoxTears.setSelected(currentNote.getTears());
+        labelStatus.setText("Note loaded.");
     }
 
     /**

@@ -29,10 +29,9 @@ public class NoteScrollPane extends JScrollPane {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     // main form creation moment
-                    //System.out.println(lastSelectedIndex);
                     if (mainForm.getCurrentNote() == null) {
                         Note selectedNote = (Note) noteList.getModel().getElementAt(0);
-                        mainForm.updateDiaryFields(selectedNote.getId());
+                        mainForm.updateDiaryFields(selectedNote);
                         return;
                     }
                     ListSelectionModel lsm = (ListSelectionModel) e.getSource();
@@ -41,7 +40,7 @@ public class NoteScrollPane extends JScrollPane {
                     Note lastNote = mainForm.getCurrentNote();
                     Note formNote = mainForm.createNoteByFormFields();
                     // if note has been changed
-                    if (!lastNote.compareTo(formNote)) {
+                    if (!lastNote.compareTo(formNote, mainForm)) {
                         String message = "Note has been changed. Do you want to save it?";
                         String title = "Confirm";
                         Object[] options = { "Yes", "No" };
@@ -54,7 +53,7 @@ public class NoteScrollPane extends JScrollPane {
                         }
                     }
                     Note selectedNote = (Note) noteList.getModel().getElementAt(index);
-                    mainForm.updateDiaryFields(selectedNote.getId());
+                    mainForm.updateDiaryFields(selectedNote);
                 }
             }
         });
