@@ -2,6 +2,7 @@ package database;
 
 import java.io.*;
 import java.util.Scanner;
+import diary.Note;
 
 public final class Query {
 	private static String dir = "query/";
@@ -57,10 +58,11 @@ public final class Query {
 		return answer;
 	}
 	
-	public static String insert(String dbname, String title, String text)
+	public static String insert(String dbname, Note note)
 			throws IOException {
-		return getQuery("insert_note", dbname, clear(title), clear(text));
+		return getQuery("insert_note", dbname, clear(note.getTitle()), clear(note.getText()));
 	}
+    
 	
 	public static String editAll(String dbname, int id, String title, 
 			String text) throws IOException {
@@ -71,4 +73,12 @@ public final class Query {
 			String text) throws IOException {
 		return getQuery("edit_field", dbname, field, clear(text), id);
 	}
+    
+    public static String editNote(String dbname, Note note) throws IOException {
+        return getQuery("edit_note", dbname, note.getDate(),
+            clear(note.getTitle()), clear(note.getText()),
+            note.getMood(), note.getDesire(),
+            note.getBlood(), note.getTears(),
+            note.getId());
+    }
 }

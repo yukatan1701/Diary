@@ -1,0 +1,3 @@
+UPDATE %s
+SET date = '%s', title = '%s', text = '%s', mood = %d, desire = %d, blood = %b, tears = %b
+WHERE id = %d

@@ -244,6 +244,7 @@
               <SubComponents>
                 <Component class="javax.swing.JFormattedTextField" name="textFieldDate">
                   <Properties>
+                    <Property name="columns" type="int" value="8"/>
                     <Property name="text" type="java.lang.String" value="July 01, 1999"/>
                     <Property name="toolTipText" type="java.lang.String" value="Date"/>
                   </Properties>

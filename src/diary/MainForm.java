@@ -13,7 +13,8 @@ import javax.swing.border.*;
  */
 public class MainForm extends javax.swing.JFrame {
     
-    public final String dbname = "diary";
+    private final String dbname = "diary";
+    private Note currentNote = null;
     
     /**
      * Creates new form MainForm
@@ -26,19 +27,45 @@ public class MainForm extends javax.swing.JFrame {
         labelStatus.setText("Diary is opened.");
     }
     
+    
+    public String getDBName() {
+        return dbname;
+    }
+    
+    public Note createNoteByFormFields() {
+        Note.Fields fields = new Note.Fields();
+        fields.setId(currentNote.getId());
+        fields.setDate(textFieldDate.getText());
+        fields.setTitle(titleTextField.getText());
+        fields.setText(textArea.getText());
+        fields.setMood(sliderMood.getValue());
+        fields.setDesire(sliderDesire.getValue());
+        fields.setBlood(checkBoxBlood.isSelected());
+        fields.setTears(checkBoxTears.isSelected());
+        return new Note(fields);
+    }
+    
+    public void setStatus(String text) {
+        labelStatus.setText(text);
+    }
+    
+    public Note getCurrentNote() {
+        return currentNote;
+    }
+    
     public void updateDiaryFields(int id) {
         labelStatus.setText("Loading note...");
         // TODO: use threads
-        Note fullNote = Note.loadNoteFromDatabase(dbname, id);
+        currentNote = Note.loadNoteFromDatabase(dbname, id);
         labelStatus.setText("Note loaded.");
         
-        textFieldDate.setText(fullNote.getDate());
-        titleTextField.setText(fullNote.getTitle());
-        textArea.setText(fullNote.getText());
-        sliderMood.setValue(fullNote.getMood());
-        sliderDesire.setValue(fullNote.getDesire());
-        checkBoxBlood.setSelected(fullNote.getBlood());
-        checkBoxTears.setSelected(fullNote.getTears());
+        textFieldDate.setText(currentNote.getDate());
+        titleTextField.setText(currentNote.getTitle());
+        textArea.setText(currentNote.getText());
+        sliderMood.setValue(currentNote.getMood());
+        sliderDesire.setValue(currentNote.getDesire());
+        checkBoxBlood.setSelected(currentNote.getBlood());
+        checkBoxTears.setSelected(currentNote.getTears());
     }
 
     /**
@@ -123,6 +150,7 @@ public class MainForm extends javax.swing.JFrame {
 
         splitPane.setLeftComponent(panelLeft);
 
+        textFieldDate.setColumns(8);
         textFieldDate.setText("July 01, 1999");
         textFieldDate.setToolTipText("Date");
 

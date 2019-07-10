@@ -17,8 +17,8 @@ import java.awt.event.FocusListener;
  *
  * @author yukatan
  */
-public class TitleTextField extends JTextField implements FocusListener {
-    private final String hint;
+public class TitleTextField extends JTextField /*implements FocusListener*/ {
+    /*private final String hint;
     private boolean showingHint = true;
     
     public TitleTextField() {
@@ -59,15 +59,5 @@ public class TitleTextField extends JTextField implements FocusListener {
     @Override
     public String getText() {
         return showingHint ? "" : super.getText();
-    }
-    
-    /*@Override
-    public void setText(String text) {
-        super.setText(text);
-        if (text.isEmpty()) {
-            showHint();
-        } else {
-            hideHint();
-        }
     }*/
 }

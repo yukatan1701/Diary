@@ -44,4 +44,8 @@ public class SliderPanel extends javax.swing.JPanel {
     public void setValue(int val) {
         slider.setValue(val);
     }
+    
+    public int getValue() {
+        return slider.getValue();
+    }
 }

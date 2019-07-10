@@ -19,10 +19,10 @@ import javax.swing.DefaultListModel;
  */
 public class Note {
     public static class Fields {
-        private int id;
-        private String date;
-        private String title;
-        private String text;
+        private int id = -1;
+        private String date = "";
+        private String title = "";
+        private String text = "";
         private int mood = 5;
         private int desire = 5;
         private boolean blood = false;
@@ -45,6 +45,30 @@ public class Note {
         
         public Fields(ResultSet rs) {
             
+        }
+        
+        public boolean compareTo(Fields f) {
+            /*System.out.println("***");
+            System.out.println(id == f.id);
+            System.out.println(date.compareTo(f.date) == 0);
+            System.out.println(title.compareTo(f.title) == 0);
+            System.out.println(title);
+            System.out.println(f.title);
+            System.out.println(text.compareTo(f.text) == 0); 
+            System.out.println(text);
+            System.out.println(f.text);
+            System.out.println(mood == f.mood);
+            System.out.println(desire == f.desire);
+            System.out.println(blood == f.blood);
+            System.out.println(tears == f.tears);*/
+            return (id == f.id &&
+                date.compareTo(f.date) == 0 &&
+                title.compareTo(f.title) == 0 &&
+                text.compareTo(f.text) == 0 &&
+                mood == f.mood &&
+                desire == f.desire &&
+                blood == f.blood &&
+                tears == f.tears);
         }
         
         public void setId(int id) {
@@ -84,6 +108,10 @@ public class Note {
     
     public Note(Fields newFields) {
         fields = new Fields(newFields);
+    }
+    
+    public boolean compareTo(Note n) {
+        return this.fields.compareTo(n.fields);
     }
     
     public int getId() {
@@ -171,5 +199,15 @@ public class Note {
         }
         dbconn.closeConnection();
         return new Note(fields);
+    }
+    
+    public void editNoteInDatabase(String dbname) {
+        DBConnection dbconn = new DBConnection(dbname);
+        try {
+            dbconn.editNote(Query.editNote(dbname, this));
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
+        dbconn.closeConnection();
     }
 }
