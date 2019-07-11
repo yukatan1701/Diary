@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.DefaultListModel;
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -23,15 +24,16 @@ public class Note {
     public static class Fields {
         private int id = -1;
         private String date = "";
-        private String title = "";
-        private String text = "";
+        private String title = "<title>";
+        private String text = "<text>";
         private int mood = 5;
         private int desire = 5;
         private boolean blood = false;
         private boolean tears = false;
         
         public Fields() {
-            
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            date = format.format(new Date());
         }
         
         public Fields(Fields newFields) {
@@ -109,6 +111,10 @@ public class Note {
     
     private final Fields fields;
     
+    public Note() {
+        fields = new Fields();
+    }
+    
     public Note(Fields newFields) {
         fields = new Fields(newFields);
     }
@@ -166,6 +172,10 @@ public class Note {
     @Override
     public String toString() {
         return fields.title;
+    }
+    
+    public void setId(int id) {
+        fields.id = id;
     }
     
     public void setText(String text) {
@@ -235,5 +245,17 @@ public class Note {
             ex.printStackTrace();
         }
         dbconn.closeConnection();
+    }
+    
+    public int addNoteToDatabase(String dbname) {
+        int id = -1;
+        DBConnection dbconn = new DBConnection(dbname);
+        try {
+            id = dbconn.insertNote(Query.insert(dbname, this));
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
+        dbconn.closeConnection();
+        return id;
     }
 }

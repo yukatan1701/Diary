@@ -33,12 +33,17 @@ public class DBConnection {
         }
     }
     
-    public void insertNote(String query) {
+    public int insertNote(String query) {
+        int id = -1;
     	try {
-    		stmt.executeUpdate(query);
+    		stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next())
+                id = rs.getInt(1);
     	} catch (SQLException ex) {
             ex.printStackTrace();
         }
+        return id;
     }
     
     public void execute(String query) {

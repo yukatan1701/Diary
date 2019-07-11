@@ -1,1 +1,1 @@
-INSERT INTO %s VALUES (DEFAULT, CURRENT_DATE, '%s','%s')
+INSERT INTO %s VALUES (DEFAULT, CURRENT_DATE, '%s', '%s', %d, %d, %b, %b)

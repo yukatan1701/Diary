@@ -22,22 +22,13 @@ public class NoteScrollPane extends JScrollPane {
     private MainForm mainForm = null;
     private DefaultListModel<Note> listModel = null;
     private int lastIndex = BEGIN_INDEX;
-   
+    
     public class NoteListSelectionHandler implements ListSelectionListener {
         NoteScrollPane pane = null;
         
         public NoteListSelectionHandler(NoteScrollPane pane) {
             this.pane = pane;
-        }
-
-        private int showConfirmDialog() {
-            String message = "Note has been changed. Do you want to save it?";
-            String title = "Confirm";
-            Object[] options = { "Yes", "No" };
-            return JOptionPane.showOptionDialog(mainForm, message, 
-                title, JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        }
+        }   
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -46,7 +37,8 @@ public class NoteScrollPane extends JScrollPane {
                 Note editedNote = mainForm.createWideNoteByFormFields();
                 // if note has been changed
                 if (!savedNote.compareWithWideNote(editedNote, mainForm)) {
-                    if (showConfirmDialog() == JOptionPane.YES_OPTION) {
+                    String message = "Note has been changed. Do you want to save it?";
+                    if (showConfirmDialog(message) == JOptionPane.YES_OPTION) {
                         pane.saveNoteAndRefresh(savedNote, editedNote);
                     }
                 }
@@ -59,12 +51,47 @@ public class NoteScrollPane extends JScrollPane {
         }
     }
     
+    private int showConfirmDialog(String message) {
+        String title = "Confirm";
+        Object[] options = { "Yes", "No" };
+        return JOptionPane.showOptionDialog(mainForm, message, 
+            title, JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+    }
+    
     public void saveNoteAndRefresh(Note savedNote, Note editedNote) {
         editedNote.editNoteInDatabase(mainForm.getDBName());
         mainForm.editTextInCache(editedNote.getId(), editedNote.getText());
         savedNote.copyPreview(editedNote);
         mainForm.setStatus("Note has been updated.");
         listModel.setElementAt(savedNote, lastIndex);
+    }
+    
+    public void createNoteAndRefresh(Note savedNote, Note editedNote) {
+        int id = editedNote.addNoteToDatabase(mainForm.getDBName());
+        System.out.println(id);
+        editedNote.setId(id);
+        mainForm.editTextInCache(id, editedNote.getText());
+        savedNote.copyPreview(editedNote);
+        mainForm.setStatus("Note has been created.");
+        listModel.setElementAt(savedNote, lastIndex);
+    }
+    
+    public void addBlankNote() {
+        lastIndex++;
+        listModel.add(BEGIN_INDEX, new Note());
+        noteList.setSelectedIndex(BEGIN_INDEX);
+    }
+    
+    public boolean tryCancelAdding() {
+        String message = "Do you want to cancel creating a note?";
+        if (showConfirmDialog(message) == JOptionPane.YES_OPTION) {
+            lastIndex--;
+            listModel.removeElementAt(BEGIN_INDEX);
+            noteList.setSelectedIndex(BEGIN_INDEX);
+            return true;
+        }
+        return false;
     }
     
     // just for design preview
@@ -94,7 +121,7 @@ public class NoteScrollPane extends JScrollPane {
     public void refresh() {
         mainForm.clearCache();
         loadListFromDatabase();
-        mainForm.updateDiaryFields(listModel.getElementAt(BEGIN_INDEX));
+        additionalInit();
         mainForm.setStatus("All notes are reloaded.");
     }
 }

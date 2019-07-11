@@ -7,11 +7,9 @@ package diary;
 
 import javax.swing.border.*;
 import java.util.HashMap;
-import javax.swing.Action;
 import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
@@ -25,6 +23,7 @@ public class MainForm extends javax.swing.JFrame {
     private final String dbname = "diary";
     private Note currentNote = null;
     private final HashMap<Integer, String> textCache = new HashMap<>();
+    private boolean addingNoteMode = false;
     /**
      * Creates new form MainForm
      */
@@ -36,12 +35,22 @@ public class MainForm extends javax.swing.JFrame {
         labelStatus.setText("Diary is opened.");
     }
     
+    public void setAddingMode(boolean mode) {
+        addingNoteMode = mode;
+        buttonCancel.setEnabled(mode);
+        buttonAdd.setEnabled(!mode);
+    }
+    
     private void initSaveButton() {
         buttonSave.setAction(new AbstractAction("Save") {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
-           }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (addingNoteMode) {
+                    noteScrollPane.createNoteAndRefresh(currentNote, createWideNoteByFormFields());
+                } else {
+                    noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
+                }
+            }
         });
         int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
         KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
@@ -51,10 +60,11 @@ public class MainForm extends javax.swing.JFrame {
     
     private void initAddButton() {
         buttonAdd.setAction(new AbstractAction("Add") {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               //noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
-           }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setAddingMode(true);
+                noteScrollPane.addBlankNote();
+            }
         });
         int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
         KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK);
@@ -64,21 +74,41 @@ public class MainForm extends javax.swing.JFrame {
     
     private void initRefreshButton() {
         buttonRefresh.setAction(new AbstractAction("Refresh") {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               noteScrollPane.refresh();
-           }
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noteScrollPane.refresh();
+            }
         });
         int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
         KeyStroke ks = KeyStroke.getKeyStroke("F5");
-        toolBar.getInputMap(focus).put(ks, "Add");
+        toolBar.getInputMap(focus).put(ks, "Refresh");
         toolBar.getActionMap().put("Refresh", buttonRefresh.getAction());
+    }
+    
+    private void initCancelButton() {
+        //buttonCancel.setVisible(false);
+        buttonCancel.setAction(new AbstractAction("Cancel") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (buttonCancel.isEnabled()) {
+                    labelStatus.setText("WOHOHOOOO");
+                    boolean success = noteScrollPane.tryCancelAdding();
+                    setAddingMode(!success);
+                }
+            }
+        });
+        int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+        toolBar.getInputMap(focus).put(ks, "Cancel");
+        toolBar.getActionMap().put("Cancel", buttonCancel.getAction());
+        buttonCancel.setEnabled(false);
     }
     
     private void initButtons() {
         initAddButton();
         initSaveButton();
         initRefreshButton();
+        initCancelButton();
     }
     
     public void setCurrentNote(Note note) {
@@ -158,6 +188,7 @@ public class MainForm extends javax.swing.JFrame {
 
         toolBar = new javax.swing.JToolBar();
         buttonAdd = new javax.swing.JButton();
+        buttonCancel = new javax.swing.JButton();
         buttonSave = new javax.swing.JButton();
         buttonRefresh = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
@@ -200,12 +231,14 @@ public class MainForm extends javax.swing.JFrame {
         buttonAdd.setFocusable(false);
         buttonAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonAddActionPerformed(evt);
-            }
-        });
         toolBar.add(buttonAdd);
+
+        buttonCancel.setText("Cancel");
+        buttonCancel.setEnabled(false);
+        buttonCancel.setFocusable(false);
+        buttonCancel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonCancel.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(buttonCancel);
 
         buttonSave.setText("Save");
         buttonSave.setFocusable(false);
@@ -232,8 +265,6 @@ public class MainForm extends javax.swing.JFrame {
 
         panelLeft.setPreferredSize(new java.awt.Dimension(300, 586));
         panelLeft.setLayout(new java.awt.CardLayout());
-
-        noteScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         panelLeft.add(noteScrollPane, "card2");
 
         splitPane.setLeftComponent(panelLeft);
@@ -331,20 +362,25 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().add(panelStatus, java.awt.BorderLayout.PAGE_END);
 
         menuDiary.setText("Menu");
+        menuDiary.setDisplayedMnemonicIndex(0);
 
+        menuItemAdd.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         menuItemAdd.setText("Add note...");
         menuDiary.add(menuItemAdd);
 
+        menuItemRefresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
         menuItemRefresh.setText("Refresh");
         menuDiary.add(menuItemRefresh);
         menuDiary.add(jSeparator1);
 
+        menuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         menuItemExit.setText("Exit");
         menuDiary.add(menuItemExit);
 
         menuBar.add(menuDiary);
 
         menuTools.setText("Tools");
+        menuTools.setDisplayedMnemonicIndex(0);
 
         menuItemPreferences.setText("Preferences...");
         menuTools.add(menuItemPreferences);
@@ -352,16 +388,13 @@ public class MainForm extends javax.swing.JFrame {
         menuBar.add(menuTools);
 
         menuHelp.setText("Help");
+        menuHelp.setDisplayedMnemonicIndex(0);
         menuBar.add(menuHelp);
 
         setJMenuBar(menuBar);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
-        labelStatus.setText("Add!");
-    }//GEN-LAST:event_buttonAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -402,6 +435,7 @@ public class MainForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;
+    private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonRefresh;
     private javax.swing.JButton buttonSave;

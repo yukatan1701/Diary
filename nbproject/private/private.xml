@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/yukatan/NetBeansProjects/Diary/src/diary/TitleTextField.java</file>
             <file>file:/home/yukatan/NetBeansProjects/Diary/src/diary/NoteScrollPane.java</file>
+            <file>file:/home/yukatan/NetBeansProjects/Diary/src/diary/NotePanel.java</file>
             <file>file:/home/yukatan/NetBeansProjects/Diary/src/diary/Note.java</file>
             <file>file:/home/yukatan/NetBeansProjects/Diary/src/diary/MainForm.java</file>
             <file>file:/home/yukatan/NetBeansProjects/Diary/src/diary/NoteList.java</file>
+            <file>file:/home/yukatan/NetBeansProjects/Diary/src/database/DBConnection.java</file>
             <file>file:/home/yukatan/NetBeansProjects/Diary/src/database/Query.java</file>
         </group>
     </open-files>

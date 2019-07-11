@@ -60,7 +60,9 @@ public final class Query {
 	
 	public static String insert(String dbname, Note note)
 			throws IOException {
-		return getQuery("insert_note", dbname, clear(note.getTitle()), clear(note.getText()));
+		return getQuery("insert_note", dbname, clear(note.getTitle()),
+            clear(note.getText()), note.getMood(), note.getDesire(),
+            note.getBlood(), note.getTears());
 	}
     
 	
