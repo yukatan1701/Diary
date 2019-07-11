@@ -7,6 +7,8 @@ package diary;
 
 import javax.swing.border.*;
 import java.util.HashMap;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -23,11 +25,13 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm() {
         
         initComponents();
-        noteScrollPane.setListModel(Note.loadNotesFromDatabase(dbname));
-        noteScrollPane.selectIndex(0);
+        noteScrollPane.additionalInit();
         labelStatus.setText("Diary is opened.");
     }
     
+    public void setCurrentNote(Note note) {
+        currentNote = note;
+    }
     
     public String getDBName() {
         return dbname;
@@ -98,6 +102,7 @@ public class MainForm extends javax.swing.JFrame {
 
         toolBar = new javax.swing.JToolBar();
         buttonAdd = new javax.swing.JButton();
+        buttonSave = new javax.swing.JButton();
         buttonRefresh = new javax.swing.JButton();
         buttonDelete = new javax.swing.JButton();
         splitPane = new javax.swing.JSplitPane();
@@ -146,6 +151,17 @@ public class MainForm extends javax.swing.JFrame {
         });
         toolBar.add(buttonAdd);
 
+        buttonSave.setText("Save");
+        buttonSave.setFocusable(false);
+        buttonSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonSave.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
+        toolBar.add(buttonSave);
+
         buttonRefresh.setText("Refresh");
         buttonRefresh.setFocusable(false);
         buttonRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -165,6 +181,8 @@ public class MainForm extends javax.swing.JFrame {
 
         panelLeft.setPreferredSize(new java.awt.Dimension(300, 586));
         panelLeft.setLayout(new java.awt.CardLayout());
+
+        noteScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         panelLeft.add(noteScrollPane, "card2");
 
         splitPane.setLeftComponent(panelLeft);
@@ -291,8 +309,12 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
-        // TODO add your handling code here:
+        labelStatus.setText("Add!");
     }//GEN-LAST:event_buttonAddActionPerformed
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
+    }//GEN-LAST:event_buttonSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,6 +357,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonDelete;
     private javax.swing.JButton buttonRefresh;
+    private javax.swing.JButton buttonSave;
     private javax.swing.JCheckBox checkBoxBlood;
     private javax.swing.JCheckBox checkBoxTears;
     private javax.swing.JPopupMenu.Separator jSeparator1;

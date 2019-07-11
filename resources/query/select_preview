@@ -1,1 +1,1 @@
-SELECT id, date, title, SUBSTR(text, 1, 128) AS text, mood, desire, blood, tears FROM %s
+SELECT id, date, title, SUBSTR(text, 1, 128) AS text, mood, desire, blood, tears FROM %s ORDER BY date DESC
