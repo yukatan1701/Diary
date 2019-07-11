@@ -7,8 +7,14 @@ package diary;
 
 import javax.swing.border.*;
 import java.util.HashMap;
+import javax.swing.Action;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -25,8 +31,54 @@ public class MainForm extends javax.swing.JFrame {
     public MainForm() {
         
         initComponents();
+        initButtons();
         noteScrollPane.additionalInit();
         labelStatus.setText("Diary is opened.");
+    }
+    
+    private void initSaveButton() {
+        buttonSave.setAction(new AbstractAction("Save") {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
+           }
+        });
+        int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        toolBar.getInputMap(focus).put(ks, "Save");
+        toolBar.getActionMap().put("Save", buttonSave.getAction());
+    }
+    
+    private void initAddButton() {
+        buttonAdd.setAction(new AbstractAction("Add") {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               //noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
+           }
+        });
+        int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK);
+        toolBar.getInputMap(focus).put(ks, "Add");
+        toolBar.getActionMap().put("Add", buttonAdd.getAction());
+    }
+    
+    private void initRefreshButton() {
+        buttonRefresh.setAction(new AbstractAction("Refresh") {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               noteScrollPane.refresh();
+           }
+        });
+        int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        KeyStroke ks = KeyStroke.getKeyStroke("F5");
+        toolBar.getInputMap(focus).put(ks, "Add");
+        toolBar.getActionMap().put("Refresh", buttonRefresh.getAction());
+    }
+    
+    private void initButtons() {
+        initAddButton();
+        initSaveButton();
+        initRefreshButton();
     }
     
     public void setCurrentNote(Note note) {
@@ -60,6 +112,10 @@ public class MainForm extends javax.swing.JFrame {
     
     public String getCachedTextById(int id) {
         return textCache.get(id);
+    }
+    
+    public void clearCache() {
+        textCache.clear();
     }
     
     public void editTextInCache(int id, String text) {
@@ -155,11 +211,6 @@ public class MainForm extends javax.swing.JFrame {
         buttonSave.setFocusable(false);
         buttonSave.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonSave.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        buttonSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonSaveActionPerformed(evt);
-            }
-        });
         toolBar.add(buttonSave);
 
         buttonRefresh.setText("Refresh");
@@ -311,10 +362,6 @@ public class MainForm extends javax.swing.JFrame {
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         labelStatus.setText("Add!");
     }//GEN-LAST:event_buttonAddActionPerformed
-
-    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
-        noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
-    }//GEN-LAST:event_buttonSaveActionPerformed
 
     /**
      * @param args the command line arguments

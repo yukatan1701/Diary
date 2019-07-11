@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu Jul 11 16:13:12 OMST 2019:
- Производится загрузка Derby версии The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): экземпляр a816c00e-016b-e085-c8f4-00000455f0d8
+Thu Jul 11 17:27:55 OMST 2019:
+ Производится загрузка Derby версии The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): экземпляр a816c00e-016b-e0ca-30f1-0000046f1a90
 в каталоге базы данных /home/yukatan/NetBeansProjects/Diary/diary sun.misc.Launcher$AppClassLoader@3764951d 
 
 java.vendor=Oracle Corporation
@@ -12,8 +12,8 @@ os.version=4.9.0-9-amd64
 derby.system.home=null
 Запущен загрузчик классов базы данных - derby.database.classpath=''
 ----------------------------------------------------------------
-Thu Jul 11 16:13:13 OMST 2019: Shutting down Derby engine
+Thu Jul 11 17:27:56 OMST 2019: Shutting down Derby engine
 ----------------------------------------------------------------
-Thu Jul 11 16:13:13 OMST 2019:
-Завершается работа экземпляра a816c00e-016b-e085-c8f4-00000455f0d8
+Thu Jul 11 17:27:56 OMST 2019:
+Завершается работа экземпляра a816c00e-016b-e0ca-30f1-0000046f1a90
 ----------------------------------------------------------------

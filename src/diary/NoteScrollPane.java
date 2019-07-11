@@ -17,11 +17,11 @@ import javax.swing.JOptionPane;
  */
 public class NoteScrollPane extends JScrollPane {
     
-    protected final int BEGIN_INDEX = 0;
-    protected NoteList noteList = null;
-    protected MainForm mainForm = null;
-    protected DefaultListModel<Note> listModel = null;
-    protected int lastIndex = BEGIN_INDEX;
+    private final int BEGIN_INDEX = 0;
+    private NoteList noteList = null;
+    private MainForm mainForm = null;
+    private DefaultListModel<Note> listModel = null;
+    private int lastIndex = BEGIN_INDEX;
    
     public class NoteListSelectionHandler implements ListSelectionListener {
         NoteScrollPane pane = null;
@@ -44,25 +44,19 @@ public class NoteScrollPane extends JScrollPane {
             if (!e.getValueIsAdjusting()) {
                 Note savedNote = mainForm.getCurrentNote();
                 Note editedNote = mainForm.createWideNoteByFormFields();
-
-                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-                int index = lsm.getLeadSelectionIndex();
                 // if note has been changed
                 if (!savedNote.compareWithWideNote(editedNote, mainForm)) {
-                    int result = showConfirmDialog();
-                    if (result == JOptionPane.YES_OPTION) {
+                    if (showConfirmDialog() == JOptionPane.YES_OPTION) {
                         pane.saveNoteAndRefresh(savedNote, editedNote);
                     }
                 }
+                ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+                int index = lsm.getLeadSelectionIndex();
                 Note selectedNote = (Note) noteList.getModel().getElementAt(index);
                 mainForm.updateDiaryFields(selectedNote);
                 lastIndex = index;
             }
         }
-    }
-    
-    public MainForm getMainForm() {
-        return mainForm;
     }
     
     public void saveNoteAndRefresh(Note savedNote, Note editedNote) {
@@ -81,8 +75,12 @@ public class NoteScrollPane extends JScrollPane {
     
     public NoteScrollPane(MainForm mainForm) {
         this.mainForm = mainForm;
-        this.listModel = Note.loadNotesFromDatabase(mainForm.getDBName());
-        this.noteList = new NoteList(listModel);
+        loadListFromDatabase();
+    }
+    
+    private void loadListFromDatabase() {
+        listModel = Note.loadNotesFromDatabase(mainForm.getDBName());
+        noteList = new NoteList(listModel);
         noteList.setSelectedIndex(BEGIN_INDEX);
         this.setViewportView(noteList);
     }
@@ -91,5 +89,12 @@ public class NoteScrollPane extends JScrollPane {
         mainForm.updateDiaryFields(listModel.getElementAt(BEGIN_INDEX));
         ListSelectionModel selModel = noteList.getSelectionModel();
         selModel.addListSelectionListener(new NoteListSelectionHandler(this));
+    }
+    
+    public void refresh() {
+        mainForm.clearCache();
+        loadListFromDatabase();
+        mainForm.updateDiaryFields(listModel.getElementAt(BEGIN_INDEX));
+        mainForm.setStatus("All notes are reloaded.");
     }
 }
