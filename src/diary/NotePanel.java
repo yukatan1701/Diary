@@ -39,7 +39,7 @@ public class NotePanel extends JPanel {
     
     public void addNoteToPanel(Note note) {
         String[] date = note.getDate().split("-");
-        labelDate.setText(String.format("%s.%s.%s", date[2], date[1], date[0]));
+        labelDate.setText(String.format("%s.%s.%s [%d]", date[2], date[1], date[0]));
         labelTitle.setText(note.getTitle());
         labelText.setText(note.getText());
     }

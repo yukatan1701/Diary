@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
+import javax.swing.JButton;
 
 /**
  *
@@ -40,75 +41,72 @@ public class MainForm extends javax.swing.JFrame {
         buttonCancel.setEnabled(mode);
         buttonAdd.setEnabled(!mode);
     }
+
+    private void addBlankNote() {
+        setAddingMode(true);
+        noteScrollPane.addBlankNote();
+    }
     
-    private void initSaveButton() {
+    private void setButtonsActions() {
         buttonSave.setAction(new AbstractAction("Save") {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(addingNoteMode);
                 if (addingNoteMode) {
-                    noteScrollPane.createNoteAndRefresh(currentNote, createWideNoteByFormFields());
+                    noteScrollPane.createNoteAndRefresh(currentNote,
+                        createWideNoteByFormFields());
+                    setAddingMode(false);
                 } else {
-                    noteScrollPane.saveNoteAndRefresh(currentNote, createWideNoteByFormFields());
+                    noteScrollPane.saveNoteAndRefresh(currentNote,
+                        createWideNoteByFormFields());
                 }
             }
         });
-        int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
-        toolBar.getInputMap(focus).put(ks, "Save");
-        toolBar.getActionMap().put("Save", buttonSave.getAction());
-    }
-    
-    private void initAddButton() {
         buttonAdd.setAction(new AbstractAction("Add") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setAddingMode(true);
-                noteScrollPane.addBlankNote();
+                addBlankNote();
             }
         });
-        int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK);
-        toolBar.getInputMap(focus).put(ks, "Add");
-        toolBar.getActionMap().put("Add", buttonAdd.getAction());
-    }
-    
-    private void initRefreshButton() {
         buttonRefresh.setAction(new AbstractAction("Refresh") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 noteScrollPane.refresh();
             }
         });
-        int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        KeyStroke ks = KeyStroke.getKeyStroke("F5");
-        toolBar.getInputMap(focus).put(ks, "Refresh");
-        toolBar.getActionMap().put("Refresh", buttonRefresh.getAction());
-    }
-    
-    private void initCancelButton() {
-        //buttonCancel.setVisible(false);
         buttonCancel.setAction(new AbstractAction("Cancel") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (buttonCancel.isEnabled()) {
-                    labelStatus.setText("WOHOHOOOO");
                     boolean success = noteScrollPane.tryCancelAdding();
                     setAddingMode(!success);
                 }
             }
         });
+        buttonDelete.setAction(new AbstractAction("Delete") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                noteScrollPane.deleteNote(currentNote);
+            }
+        });
+    }
+    
+    private void initButtonKeystroke(JButton button, int key, int mask) {
         int focus = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-        toolBar.getInputMap(focus).put(ks, "Cancel");
-        toolBar.getActionMap().put("Cancel", buttonCancel.getAction());
-        buttonCancel.setEnabled(false);
+        KeyStroke ks = KeyStroke.getKeyStroke(key, mask);
+        String command = button.getActionCommand();
+        toolBar.getInputMap(focus).put(ks, command);
+        toolBar.getActionMap().put(command, button.getAction());
     }
     
     private void initButtons() {
-        initAddButton();
-        initSaveButton();
-        initRefreshButton();
-        initCancelButton();
+        setButtonsActions();
+        initButtonKeystroke(buttonAdd, KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK);
+        initButtonKeystroke(buttonSave, KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK);
+        initButtonKeystroke(buttonRefresh, KeyEvent.VK_F5, 0);
+        initButtonKeystroke(buttonCancel, KeyEvent.VK_ESCAPE, 0);
+        initButtonKeystroke(buttonDelete, KeyEvent.VK_DELETE, 0);
+        buttonCancel.setEnabled(false);
     }
     
     public void setCurrentNote(Note note) {
@@ -252,7 +250,7 @@ public class MainForm extends javax.swing.JFrame {
         buttonRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(buttonRefresh);
 
-        buttonDelete.setText("Delete...");
+        buttonDelete.setText("Delete");
         buttonDelete.setFocusable(false);
         buttonDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         buttonDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -366,6 +364,11 @@ public class MainForm extends javax.swing.JFrame {
 
         menuItemAdd.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         menuItemAdd.setText("Add note...");
+        menuItemAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemAddActionPerformed(evt);
+            }
+        });
         menuDiary.add(menuItemAdd);
 
         menuItemRefresh.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
@@ -395,6 +398,10 @@ public class MainForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menuItemAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAddActionPerformed
+        addBlankNote();
+    }//GEN-LAST:event_menuItemAddActionPerformed
 
     /**
      * @param args the command line arguments

@@ -74,6 +74,7 @@ public class NoteScrollPane extends JScrollPane {
         mainForm.editTextInCache(id, editedNote.getText());
         savedNote.copyPreview(editedNote);
         mainForm.setStatus("Note has been created.");
+        lastIndex = BEGIN_INDEX;
         listModel.setElementAt(savedNote, lastIndex);
     }
     
@@ -109,6 +110,7 @@ public class NoteScrollPane extends JScrollPane {
         listModel = Note.loadNotesFromDatabase(mainForm.getDBName());
         noteList = new NoteList(listModel);
         noteList.setSelectedIndex(BEGIN_INDEX);
+        lastIndex = BEGIN_INDEX;
         this.setViewportView(noteList);
     }
     
@@ -123,5 +125,16 @@ public class NoteScrollPane extends JScrollPane {
         loadListFromDatabase();
         additionalInit();
         mainForm.setStatus("All notes are reloaded.");
+    }
+    
+    public void deleteNote(Note note) {
+        String message = "Do you want to delete this note?\nThis process is irreversible.";
+        if (showConfirmDialog(message) == JOptionPane.YES_OPTION) {
+            listModel.remove(lastIndex);
+            if (lastIndex > listModel.size() - 1)
+                lastIndex = listModel.size() - 1;
+            noteList.setSelectedIndex(lastIndex);
+            note.deleteNoteFromDatabase(mainForm.getDBName());
+        }
     }
 }

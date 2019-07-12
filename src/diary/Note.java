@@ -258,4 +258,16 @@ public class Note {
         dbconn.closeConnection();
         return id;
     }
+    
+    public void deleteNoteFromDatabase(String dbname) {
+        DBConnection dbconn = new DBConnection(dbname);
+        try {
+            int[] rows = new int[1]; 
+            rows[0] = this.getId();
+            dbconn.deleteNote(Query.deleteIndividually(dbname, rows));
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
+        }
+        dbconn.closeConnection();
+    }
 }
